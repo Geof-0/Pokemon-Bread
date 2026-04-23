@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 fps = 75
 
 #screen setup
-screen = pygame.display.set_mode((300, 200))
+screen = pygame.display.set_mode((500, 500))
 pygame.display.set_caption("Title_holder")
 
 
