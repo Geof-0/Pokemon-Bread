@@ -7,6 +7,7 @@ import pygame
 
 pygame.init()
 
+
 #frames setup
 clock = pygame.time.Clock()
 fps = 75
