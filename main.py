@@ -8,12 +8,12 @@ import pygame
 pygame.init()
 
 
-#frames setup
+#frames_setup
 
 clock = pygame.time.Clock()
 fps = 75
 
-#screen setup
+#screen_setup
 
 screen = pygame.display.set_mode((500, 500))
 pygame.display.set_caption("Title_holder")
@@ -39,10 +39,12 @@ while running:
             running = False
 
 
-    #keyboard presses
+    #keyboard_presses
 
     keys = pygame.key.get_pressed()
 
+        #keyboard_movement_checks
+        
     if keys[pygame.K_w] and chr_y > vel:
         chr_y -= vel
 
