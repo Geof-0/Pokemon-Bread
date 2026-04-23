@@ -3,22 +3,22 @@
 
 import pokemon
 import pokemon_battle
+
 import pygame
 
 pygame.init()
 
-
-#frames_setup
+#frames_setup    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
 
 clock = pygame.time.Clock()
 fps = 75
 
-#screen_setup
+#screen_setup    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
 
 screen = pygame.display.set_mode((500, 500))
 pygame.display.set_caption("Title_holder")
 
-#movement
+#movement    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
 
 chr_x = 50
 chr_y = 50
@@ -26,7 +26,7 @@ width = 40
 height = 40
 vel = 5
 
-#main_loop
+#main_loop    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
 
 running = True
     
@@ -39,11 +39,11 @@ while running:
             running = False
 
 
-    #keyboard_presses
+    #keyboard_presses    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
 
     keys = pygame.key.get_pressed()
 
-        #keyboard_movement_checks
+        #keyboard_movement_checks    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
         
     if keys[pygame.K_w] and chr_y > vel:
         chr_y -= vel
