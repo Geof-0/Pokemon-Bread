@@ -8,18 +8,22 @@ import pygame
 
 pygame.init()
 
-#frames_setup    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
+# frames_setup    
 
 size=[500,500]
 clock = pygame.time.Clock()
 fps = 75
 
-#screen_setup    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
+# screen_setup    
 
-screen = pygame.display.set_mode((500, 500))
+screen = pygame.display.set_mode(size, pygame.RESIZABLE)
+screen_full = False
+
+#screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
 pygame.display.set_caption("Title_holder")
 
-#movement    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
+# movement    
 
 chr_x = 50
 chr_y = 50
@@ -27,7 +31,7 @@ width = 40
 height = 40
 vel = 3
 
-#main_loop    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
+# main_loop    
 
 running = True
     
@@ -42,12 +46,29 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        if event.type == pygame.VIDEORESIZE:
+            size = [event.w, event.h]
+            screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
 
-    #keyboard_presses    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
+        # full_screen_toggle
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_F11:
+                screen_full = not screen_full
+
+                if screen_full:
+                    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+                else:
+                    screen = pygame.display.set_mode(size, pygame.RESIZABLE)
+
+    # screen updating
+    screen_width = screen.get_width()
+    screen_height = screen.get_height()
+
+    # keyboard_presses    
 
     keys = pygame.key.get_pressed()
 
-        #keyboard_movement_checks    <-- percy what the hell is this, no space between the # and the comment? get better at commenting brochacho
+        # keyboard_movement_checks 
         
     if keys[pygame.K_w] and chr_y > 0:
         chr_y -= vel
