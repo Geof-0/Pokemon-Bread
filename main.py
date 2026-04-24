@@ -3,8 +3,8 @@
 
 import pokemon
 import pokemon_battle
-
 import pygame
+
 
 pygame.init()
 
