@@ -12,7 +12,7 @@ pygame.init()
 
 size=[500,500]
 clock = pygame.time.Clock()
-fps = 75
+fps = 80
 
 # screen_setup    
 
@@ -51,6 +51,7 @@ while running:
             screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
 
         # full_screen_toggle
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F11:
                 screen_full = not screen_full
@@ -61,6 +62,7 @@ while running:
                     screen = pygame.display.set_mode(size, pygame.RESIZABLE)
 
     # screen updating
+
     screen_width = screen.get_width()
     screen_height = screen.get_height()
 
@@ -84,7 +86,7 @@ while running:
 
 
     screen.fill((0,0,0))
-    pygame.draw.rect(screen, (255, 0, 0), (chr_x, chr_y, width, height))
+    pygame.draw.rect(screen, (255, 255, 255), (chr_x, chr_y, width, height))
     pygame.display.update()
     clock.tick(fps)
 
