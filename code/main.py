@@ -2,29 +2,30 @@
 # other files just import
 
 #import pokemon_battle as pokemon_battle
+import monitor_hz
 import pygame
 
 
 pygame.init()
 
 # frames_setup    
-
 size=[500,500]
 clock = pygame.time.Clock()
 
-monitor_hz = 0
-fps = monitor_hz if monitor_hz > 0 else 120
 
 # screen_setup    
 
 screen = pygame.display.set_mode(size, pygame.RESIZABLE)
 screen_full = False
 
+
+fps = (monitor_hz.get_monitor_refresh_rate() + 10)
+
 pygame.display.set_caption("Pokemon Green Apatite")
 pygame.mouse.set_visible(0)
 
 
-#images
+# images
 bg = pygame.image.load(r"assets\map\world.png").convert() # this is just for now later we need a bg with a resoultion of (4096, 4096)
 bg_scaled = pygame.transform.smoothscale(bg, (500, 500))
 
@@ -104,10 +105,11 @@ while running:
         chr_y = screen_height - height
 
     
-    #screen.fill((0,0,0))
     screen.blit(bg_scaled, (0, 0))
 
+    #if round(clock.get_fps()) % 30 == 0:  # updates around every 30 frames
     pygame.display.set_caption(f"Pokemon Green Apatite | FPS: {round(clock.get_fps())}") # fps counter yayy
+
     pygame.draw.rect(screen, (255, 0, 0), (round(chr_x), round(chr_y), width, height))
 
     pygame.display.update()
