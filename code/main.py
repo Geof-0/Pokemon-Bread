@@ -103,7 +103,7 @@ while running:
     #screen.fill((0,0,0))
     screen.blit(bg_scaled, (0, 0))
 
-    pygame.display.set_caption(f"Pokemon Green Apatite | FPS: {round(clock.get_fps())}")
+    pygame.display.set_caption(f"Pokemon Green Apatite | FPS: {round(clock.get_fps())}") # fps counter yayy
     pygame.draw.rect(screen, (255, 0, 0), (round(chr_x), round(chr_y), width, height))
 
     pygame.display.update()
