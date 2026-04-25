@@ -1,8 +1,8 @@
 # main game logic here
 # other files just import
 
-import pokemon
-import pokemon_battle
+import pokemon_battle as pokemon
+import pokemon_battle as pokemon_battle
 import pygame
 
 
