@@ -1,8 +1,7 @@
 # main game logic here
 # other files just import
 
-import pokemon_battle as pokemon
-import pokemon_battle as pokemon_battle
+#import pokemon_battle as pokemon_battle
 import pygame
 
 
@@ -12,32 +11,35 @@ pygame.init()
 
 size=[500,500]
 clock = pygame.time.Clock()
-fps = 80
+fps = 120
 
 # screen_setup    
 
 screen = pygame.display.set_mode(size, pygame.RESIZABLE)
 screen_full = False
 
-#screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+pygame.display.set_caption("Pokemon Green Apatite")
+pygame.mouse.set_visible(0)
 
-pygame.display.set_caption("Title_holder")
+
+#images
+bg = pygame.image.load(r"assets\map\world.png").convert() # this is just for now later we need a bg with a resoultion of (4096, 4096)
+bg_scaled = pygame.transform.smoothscale(bg, (500, 500))
 
 # movement    
 
-chr_x = 50
-chr_y = 50
+chr_x = 50.0
+chr_y = 50.0
 width = 40
 height = 40
-vel = 3
+vel = 300
 
 # main_loop    
 
+dt = 0
 running = True
     
 while running:
-
-    pygame.time.delay(10)
 
 
     for event in pygame.event.get():
@@ -49,6 +51,7 @@ while running:
         if event.type == pygame.VIDEORESIZE:
             size = [event.w, event.h]
             screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+            bg_scaled = pygame.transform.smoothscale(bg, (event.w, event.h))
 
         # full_screen_toggle
 
@@ -58,45 +61,53 @@ while running:
 
                 if screen_full:
                     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+                    bg_scaled = pygame.transform.smoothscale(bg, (screen.get_width(), screen.get_height()))
                 else:
                     screen = pygame.display.set_mode(size, pygame.RESIZABLE)
+                    bg_scaled = pygame.transform.smoothscale(bg, (size[0], size[1]))
+
 
     # screen updating
 
     screen_width = screen.get_width()
     screen_height = screen.get_height()
 
+
     # keyboard_presses    
 
     keys = pygame.key.get_pressed()
 
-        # keyboard_movement_checks 
+    # keyboard_movement_checks 
         
     if keys[pygame.K_w] and chr_y > 0:
-        chr_y -= vel
+        chr_y -= vel * dt
 
     if keys[pygame.K_a] and chr_x > 0:
-        chr_x -= vel
+        chr_x -= vel * dt
 
     if keys[pygame.K_s] and chr_y < screen_height - height:
-        chr_y += vel
+        chr_y += vel * dt
 
     if keys[pygame.K_d] and chr_x < screen_width - width:
-        chr_x += vel
+        chr_x += vel * dt
 
 
-        # player_repositon
+    # player_repositon
     if chr_x > screen_width - width:
         chr_x = screen_width - width
 
     if chr_y > screen_height - height:
         chr_y = screen_height - height
 
+    
+    #screen.fill((0,0,0))
+    screen.blit(bg_scaled, (0, 0))
 
-    screen.fill((0,0,0))
-    pygame.draw.rect(screen, (255, 255, 255), (chr_x, chr_y, width, height))
+    pygame.display.set_caption(f"Pokemon Green Apatite | FPS: {round(clock.get_fps())}")
+    pygame.draw.rect(screen, (255, 0, 0), (round(chr_x), round(chr_y), width, height))
+
     pygame.display.update()
-    clock.tick(fps)
+    dt = clock.tick(fps) / 1000
 
 
-pygame.quit
+pygame.quit()
