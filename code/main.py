@@ -9,41 +9,63 @@ import os
 
 pygame.init()
 
-# frames_setup    
+
+# frames_setup  
+  
 size = (500, 500)
 clock = pygame.time.Clock()
-
 
 # screen_setup    
 
 screen = pygame.display.set_mode(size, pygame.RESIZABLE)
 screen_full = False
-
+pygame.display.set_caption("Pokemon Green Apatite")
+pygame.mouse.set_visible(0)
 
 # for vysnc and for other.
 
-fps = helper_functions.get_monitor_refresh_rate()
+#fps = helper_functions.get_monitor_refresh_rate()
 
-#fps = 120
-
-pygame.display.set_caption("Pokemon Green Apatite")
-pygame.mouse.set_visible(0)
+fps = 120
 
 
 # images
 bg = pygame.image.load(os.path.join("assets", "map", "world.png")).convert() # this is just for now later we need a bg with a resoultion of (4096, 4096)
 bg_scaled = helper_functions.rescale(bg, 500, 500)
+   
+
+class Player(pygame.sprite.Sprite):
+    """
+    Spawn a player
+    """
+
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.images = []
+
+        img = pygame.image.load(os.path.join("assets", "sprites", "Player.png")).convert_alpha()
+        self.images.append(img)
+        self.image = self.images[0]
+        self.rect = self.image.get_rect()
 
 
-# movement    
+# player
+player = Player()  
 
-chr_x = 50.0
-chr_y = 50.0
+player.rect.x = 0  
+player.rect.y = 0 
+player_x = float(player.rect.x)
+player_y = float(player.rect.y)
 
-width = 40
-height = 40
+width = player.rect.width
+height = player.rect.height
 
-vel = 300
+vel = 225
+
+player_list = pygame.sprite.Group()
+player_list.add(player)
+
+
 
 # main_loop    
 
@@ -60,7 +82,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        if event.type == pygame.VIDEORESIZE:
+        if event.type == pygame.VIDEORESIZE and pygame.version.vernum[0] < 2:
             size = (event.w, event.h)
             screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
             bg_scaled = helper_functions.rescale(bg, event.w, event.h)
@@ -84,31 +106,36 @@ while running:
     screen_width = screen.get_width()
     screen_height = screen.get_height()
 
+    if (screen_width, screen_height) != bg_scaled.get_size():
+        bg_scaled = helper_functions.rescale(bg, screen_width, screen_height)
+
     # keyboard_presses    
 
     keys = pygame.key.get_pressed()
 
     # keyboard_movement_checks 
         
-    if keys[pygame.K_w] and chr_y > 0:
-        chr_y -= vel * dt
 
-    if keys[pygame.K_a] and chr_x > 0:
-        chr_x -= vel * dt
 
-    if keys[pygame.K_s] and chr_y < screen_height - height:
-        chr_y += vel * dt
+    if keys[pygame.K_w] and player_y > 0:
+        player_y -= vel * dt
 
-    if keys[pygame.K_d] and chr_x < screen_width - width:
-        chr_x += vel * dt
+    if keys[pygame.K_a] and player_x > 0:
+        player_x -= vel * dt
+
+    if keys[pygame.K_s] and player_y < screen_height - height:
+        player_y += vel * dt
+
+    if keys[pygame.K_d] and player_x < screen_width - width:
+        player_x += vel * dt
 
 
     # player_repositon
-    if chr_x > screen_width - width:
-        chr_x = screen_width - width
+    player_x = max(0, min(player_x, screen_width - width))
+    player_y = max(0, min(player_y, screen_height - height))
 
-    if chr_y > screen_height - height:
-        chr_y = screen_height - height
+    player.rect.x = round(player_x) 
+    player.rect.y = round(player_y)
 
     
     screen.blit(bg_scaled, (0, 0))
@@ -117,8 +144,8 @@ while running:
     if frame_count % 30 == 0:
         pygame.display.set_caption(f"Pokemon Green Apatite | FPS: {round(clock.get_fps())}") # fps counter yayy
 
-    pygame.draw.rect(screen, (255, 0, 0), (round(chr_x), round(chr_y), width, height))
-
+    #pygame.draw.rect(screen, (255, 0, 0), (round(player.rect.x), round(player.rect.y), width, height))
+    player_list.draw(screen)
     pygame.display.update()
     dt = clock.tick(fps) / 1000
 
