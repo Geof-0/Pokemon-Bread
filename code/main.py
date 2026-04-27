@@ -58,7 +58,7 @@ player_y = float(player.rect.y)
 width = player.rect.width
 height = player.rect.height
 
-vel = 180
+vel = 150
 
 player_list = pygame.sprite.Group()
 player_list.add(player)
