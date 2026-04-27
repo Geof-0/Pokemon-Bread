@@ -25,7 +25,6 @@ pygame.mouse.set_visible(0)
 # for vysnc and for other.
 
 #fps = helper_functions.get_monitor_refresh_rate()
-
 fps = 120
 
 
@@ -35,9 +34,6 @@ bg_scaled = helper_functions.rescale(bg, 500, 500)
    
 
 class Player(pygame.sprite.Sprite):
-    """
-    Spawn a player
-    """
 
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
