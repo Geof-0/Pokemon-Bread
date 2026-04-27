@@ -20,6 +20,8 @@ screen = pygame.display.set_mode(size, pygame.RESIZABLE)
 screen_full = False
 
 
+# for vysnc and for other.
+
 fps = helper_functions.get_monitor_refresh_rate()
 
 #fps = 120
