@@ -14,27 +14,22 @@ import enum
 pygame.init()
 
 
-# frames_setup  
+# setup  
 
-size = (500, 500)
+size = (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
+fps = settings.FPS
+vel = settings.PLAYER_SPEED
+screen_full = settings.FULLSCREEN
+
 clock = pygame.time.Clock()
 
-# screen_setup    
-
 screen = pygame.display.set_mode(size, pygame.RESIZABLE)
-screen_full = False
-pygame.display.set_caption("Pokemon Green Apatite")
+pygame.display.set_caption(settings.TITLE)
 pygame.mouse.set_visible(0)
-
-# for vysnc and for other.
-
-fps = helper_functions.get_monitor_refresh_rate() + 10
-#fps = helper_functions.get_monitor_refresh_rate()
-#fps = 120
 
 
 # images
-bg = pygame.image.load(os.path.join("assets", "map", "world.png")).convert() # this is just for now later we need a bg with a resoultion of (4096, 4096)
+bg = pygame.image.load(os.path.join(*settings.BG_PATH)).convert() # this is just for now later we need a bg with a resoultion of (4096, 4096)
 bg_scaled = helper_functions.rescale(bg, 500, 500)
 
 
@@ -44,7 +39,7 @@ class Player(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.images = []
 
-        img = pygame.image.load(os.path.join("assets", "sprites", "Player.png")).convert_alpha()
+        img = pygame.image.load(os.path.join(*settings.PLAYER_PATH)).convert_alpha()
         self.images.append(img)
         self.image = self.images[0]
         self.rect = self.image.get_rect()
@@ -143,7 +138,7 @@ while running:
 
     frame_count += 1
     if frame_count % 30 == 0:
-        pygame.display.set_caption(f"Pokemon Green Apatite | FPS: {round(clock.get_fps())}") # fps counter yayy
+        pygame.display.set_caption(f"{settings.TITLE} | FPS: {round(clock.get_fps())}") # fps counter yayy
 
     #pygame.draw.rect(screen, (255, 0, 0), (round(player.rect.x), round(player.rect.y), width, height))
     player_list.draw(screen)
