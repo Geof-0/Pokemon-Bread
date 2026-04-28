@@ -4,7 +4,7 @@
 #import pokemon_battle as pokemon_battle
 #import twoD as td
 
-import helper_functions
+import helper_functions as helper_functions
 import pygame
 import os
 
