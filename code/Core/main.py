@@ -1,4 +1,5 @@
 # main game logic here
+
 # other files just import
 
 #import pokemon_battle as pokemon_battle
@@ -11,11 +12,21 @@ import pygame
 import os
 import enum
 
+# state machine
+class GameState(enum.Enum):
+    INTRO = "splash"
+    MENU = "main_menu"
+    OVERWORLD = "overworld"
+    BATTLE = "battle"
+    PAUSE_MENU = "pause_menu"
+
+state = GameState.INTRO
+
+# inits
 pygame.init()
 
 
 # setup  
-
 size = (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
 fps = settings.FPS
 vel = settings.PLAYER_SPEED
@@ -56,62 +67,41 @@ player_y = float(player.rect.y)
 width = player.rect.width
 height = player.rect.height
 
-vel = 150
-
 player_list = pygame.sprite.Group()
 player_list.add(player)
 
 
+ 
+#functions
+def handle_input(event, state):
 
-# main_loop    
-
-frame_count = 0
-dt = 0
-running = True
-    
-while running:
+    global screen_full, screen, bg_scaled
 
 
-    for event in pygame.event.get():
-
-
-        if event.type == pygame.QUIT:
-            running = False
-
-        if event.type == pygame.VIDEORESIZE and pygame.version.vernum[0] < 2:
+    if event.type == pygame.VIDEORESIZE and pygame.version.vernum[0] < 2:
             size = (event.w, event.h)
             screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
             bg_scaled = helper_functions.rescale(bg, event.w, event.h)
 
-        # full_screen_toggle
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_F11:
+            screen_full = not screen_full
 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_F11:
-                screen_full = not screen_full
-
-                if screen_full:
-                    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-                    bg_scaled = helper_functions.rescale(bg, screen.get_width(), screen.get_height())
-                else:
-                    screen = pygame.display.set_mode(size, pygame.RESIZABLE)
-                    bg_scaled = helper_functions.rescale(bg, size[0], size[1])
+            if screen_full:
+                screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+                bg_scaled = helper_functions.rescale(bg, screen.get_width(), screen.get_height())
+            else:
+                screen = pygame.display.set_mode(size, pygame.RESIZABLE)
+                bg_scaled = helper_functions.rescale(bg, size[0], size[1])
 
 
-    # screen updating
+    pass
 
-    screen_width = screen.get_width()
-    screen_height = screen.get_height()
+def update(state, dt):
 
-    if (screen_width, screen_height) != bg_scaled.get_size():
-        bg_scaled = helper_functions.rescale(bg, screen_width, screen_height)
-
-    # keyboard_presses    
+    global player_x, player_y, frame_count, screen_width, screen_height
 
     keys = pygame.key.get_pressed()
-
-    # keyboard_movement_checks 
-        
-
 
     if keys[pygame.K_w] and player_y > 0:
         player_y -= vel * dt
@@ -133,15 +123,47 @@ while running:
     player.rect.x = round(player_x) 
     player.rect.y = round(player_y)
 
-    
-    screen.blit(bg_scaled, (0, 0))
-
     frame_count += 1
     if frame_count % 30 == 0:
         pygame.display.set_caption(f"{settings.TITLE} | FPS: {round(clock.get_fps())}") # fps counter yayy
 
-    #pygame.draw.rect(screen, (255, 0, 0), (round(player.rect.x), round(player.rect.y), width, height))
+    return state
+
+def draw(screen, state):
+
+    screen.blit(bg_scaled, (0, 0))
+
     player_list.draw(screen)
+
+    pass
+
+
+#pre setup
+frame_count = 0
+dt = 0
+running = True
+    
+
+#loop start
+while running:
+
+    for event in pygame.event.get():
+
+        if event.type == pygame.QUIT:
+            running = False
+
+        handle_input(event, state)
+
+    screen_width = screen.get_width()
+    screen_height = screen.get_height()
+
+    if (screen_width, screen_height) != bg_scaled.get_size():
+        bg_scaled = helper_functions.rescale(bg, screen_width, screen_height)
+
+    state = update(state, dt)
+
+    draw(screen, state)
+    
     pygame.display.update()
     dt = clock.tick(fps) / 1000
 
