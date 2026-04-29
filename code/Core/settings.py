@@ -13,7 +13,7 @@ FPS = helper_functions.get_monitor_refresh_rate() + 10
 #FPS = 120
 
 # player
-PLAYER_SPEED = 180
+PLAYER_SPEED = 155
 
 # assestets
 BG_PATH     = ("assets", "map", "world.png")
