@@ -1,7 +1,3 @@
-# main game logic here
-
-# other files just import
-
 #import pokemon_battle as pokemon_battle
 #import twoD as td
 
@@ -14,6 +10,7 @@ import enum
 
 # state machine
 class GameState(enum.Enum):
+
     INTRO = "splash"
     MENU = "main_menu"
     OVERWORLD = "overworld"
@@ -77,7 +74,6 @@ def handle_input(event, state):
 
     global screen_full, screen, bg_scaled
 
-
     if event.type == pygame.VIDEORESIZE and pygame.version.vernum[0] < 2:
             size = (event.w, event.h)
             screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
@@ -90,10 +86,10 @@ def handle_input(event, state):
             if screen_full:
                 screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
                 bg_scaled = helper_functions.rescale(bg, screen.get_width(), screen.get_height())
+
             else:
                 screen = pygame.display.set_mode(size, pygame.RESIZABLE)
                 bg_scaled = helper_functions.rescale(bg, size[0], size[1])
-
 
     pass
 
@@ -132,7 +128,6 @@ def update(state, dt):
 def draw(screen, state):
 
     screen.blit(bg_scaled, (0, 0))
-
     player_list.draw(screen)
 
     pass
