@@ -17,13 +17,5 @@ make your own .venv Vishva we are gonna port this yee idiot
 
 
 
-PLEASE CONTACT Geckoeater61@gmail.com if ur ninendo and want to take this down
-
-
-
-NOBODY HERE WANTS A DMCA STRIKE (maybe konrad does)
-
-
-
 
 
